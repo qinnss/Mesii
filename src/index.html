@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mesii's Blog</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      :root {
+        /* 白天模式变量 */
+        --bg-color: #fffff0;
+        --text-color: #333;
+        --card-bg: #fffff0;
+        --header-bg: rgba(255, 255, 240, 0.2);
+        --border-color: #e0e0e0;
+        --hover-color: #efefe0;
+        --sidebar-bg: rgba(100, 100, 100, 0.95);
+        --sidebar-text: #e0e0e0;
+      }
+
+      [data-theme="dark"] {
+        /* 夜间模式变量 */
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2d2d2d;
+        --header-bg: rgba(45, 45, 45, 0.2);
+        --border-color: #404040;
+        --hover-color: #3a3a3a;
+        --sidebar-bg: rgba(20, 20, 20, 0.95);
+        --sidebar-text: #d0d0d0;
+      }
+
+      body {
+        height: 100vh;
+        margin: 0px;
+        overflow: hidden;
+      }
+      /*大盒子*/
+      .a1 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: calc(100% - 40px);
+        height: 70px;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: var(--header-bg);
+        backdrop-filter: blur(1px);
+        position: fixed;
+        z-index: 998;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+        color: var(--text-color);
+      }
+      .a2 {
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        background-color: var(--bg-color);
+      }
+      /*侧边栏*/
+      .a3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translateX(-100%);
+        width: 200px;
+        height: 100%;
+        background-color: var(--sidebar-bg);
+        box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: 1000;
+        color: var(--sidebar-text);
+      }
+      /*遮挡罩*/
+      .a4 {
+        opacity: 0;
+        visibility: hidden;
+        top: 0px;
+        left: 0px;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(2px);
+        z-index: 999;
+        cursor: pointer;
+      }
+      .menu-open .a3 {
+        transform: translateX(0);
+      }
+      .menu-open .a4 {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .a11 {
+        display: flex;
+      }
+      .a21 {
+        width: 100%;
+        height: 30%;
+        margin-top: 70px;
+        background-image: url("../img/nef1.jpeg");
+        background-size: cover;
+        transition: all 0.5s ease;
+      }
+      .a21:hover {
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+      .a22 {
+        width: 90%;
+        height: 100px;
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        margin-left: 5%;
+        margin-right: 5%;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .a22:hover {
+        background-color: var(--hover-color);
+      }
+
+      .a31 {
+        border-bottom: 1px solid #888888;
+        width: 100px;
+        text-align: center;
+        line-height: 40px;
+        margin: 5px;
+      }
+      .a32 {
+        font-size: 10px;
+        color: #808080;
+        height: 30px;
+        width: 90%;
+        margin-top: auto;
+      }
+
+      .xuan:hover {
+        cursor: pointer;
+      }
+      .h {
+        margin: 0px;
+        color: var(--text-color);
+      }
+      /*图标*/
+      #hanber {
+        margin-right: 61px;
+        margin-left: 4px;
+      }
+      #search {
+        padding: 10px;
+        transition: margin 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: inline-block;
+        height: 22px;
+        width: 22px;
+        font-size: 22px;
+      }
+      #search:hover {
+        background-color: rgba(20, 20, 20, 0.2);
+        margin-left: 60px;
+      }
+
+      #sun {
+        height: 22px;
+        width: 22px;
+        font-size: 22px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      #search {
+        display: none;
+      }
+      #language {
+        height: 22px;
+        width: 22px;
+        font-size: 22px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      #sun:hover {
+        background-color: rgba(20, 20, 20, 0.2);
+      }
+      #language:hover {
+        background-color: rgba(20, 20, 20, 0.2);
+      }
+      .no_style_a {
+        text-decoration: none; /* 1. 去掉下划线 */
+        color: inherit; /* 2. 颜色继承父级元素（父级是黑色它就是黑色） */
+        cursor: pointer;
+      }
+
+      /*暂时添加*/
+      .onetime {
+        text-align: center;
+        height: auto;
+        padding: 20px;
+        width: 300px;
+        position: fixed;
+        top: 200px;
+        left: calc(50% - 160px);
+        background-color: rgba(10, 10, 10, 0.7);
+        z-index: 1001;
+        border-radius: 10px;
+        color: #d0d0d0;
+      }
+      .disnone {
+        display: none;
+      }
+
+      @media screen and (max-width: 600px) {
+        .a22 {
+          width: 98%;
+          margin-right: 0%;
+          margin-left: 0%;
+          padding-left: 2%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--顶-->
+    <div class="a1">
+      <span class="fa fa-bars fa-lg xuan" id="hanber"></span>
+      <b>Mesii's blog</b>
+      <span class="a11">
+        <span class="fa fa-sun-o xuan" id="sun"> </span>
+        <span class="fa fa-language xuan" id="language"> </span>
+        <span class="fa fa-search fa-lg xuan" id="search"> </span
+      ></span>
+    </div>
+    <!--内容-->
+    <div class="a2">
+      <!--图片-->
+      <div class="a21"></div>
+      <!--内容-->
+      <a href="#" class="no_style_a">
+        <div class="a22">
+          <h2 class="h">非对称加密</h2>
+          <p class="h">私钥与公钥</p>
+        </div>
+      </a>
+      <a href="#" class="no_style_a">
+        <div class="a22">
+          <h2 class="h">非对称加密</h2>
+          <p class="h">私钥与公钥</p>
+        </div>
+      </a>
+    </div>
+    <!--底部-->
+
+    <!--侧边栏-->
+    <div class="a3" id="a3">
+      <img
+        src="../img/avatar.jpg"
+        height="120px"
+        style="margin-top: 80px; margin-bottom: 30px"
+      />
+      <a href="#" class="no_style_a a31">首页 </a>
+      <a href="#" class="no_style_a a31">关于我 </a>
+      <a href="#" class="no_style_a a31">链接 </a>
+      <a href="#" class="no_style_a a31">广告 </a>
+      <div class="a32">Yi's Blog</div>
+    </div>
+    <!--罩-->
+    <div class="a4" id="a4"></div>
+
+    <!--提醒，暂时-->
+    <div class="onetime" id="onetime">
+      <p>注意:还未做桌面端适配</p>
+      <button onclick="onetim()">确认</button>
+    </div>
+
+    <!--图片加载-->
+
+    <div style="display: none">
+      <img src="../img/nef1.jpeg" alt="" />
+    </div>
+
+    <script>
+      let hanber = document.getElementById("hanber");
+      let a2 = document.getElementById("search");
+      let a3 = document.getElementById("a3");
+      let a4 = document.getElementById("a4");
+      let sun = document.getElementById("sun");
+      //0->sun,1->moon;
+      let sun_mode = 0;
+      //汉堡
+      hanber.addEventListener("click", function () {
+        console.log("cebian  win!!!");
+        document.body.classList.add("menu-open");
+      });
+      //搜索
+      a2.addEventListener("click", function () {
+        console.log("a2  win!!!");
+      });
+      //打开侧边栏
+      a4.addEventListener("click", function () {
+        console.log("body win!!");
+        document.body.classList.remove("menu-open");
+      });
+      //切换夜间or白天模式
+      sun.addEventListener("click", function () {
+        if (sun_mode == 0) {
+          sun.classList.replace("fa-sun-o", "fa-moon-o");
+          document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+
+          sun_mode = 1;
+          console.log("moon" + sun_mode);
+        } else if (sun_mode == 1) {
+          sun.classList.replace("fa-moon-o", "fa-sun-o");
+          document.documentElement.removeAttribute("data-theme");
+          localStorage.setItem("theme", "light");
+          sun_mode = 0;
+          console.log("sun" + sun_mode);
+        }
+      });
+      // 页面加载时检查本地存储的主题设置
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+          sun.classList.replace("fa-sun-o", "fa-moon-o");
+          sun_mode = 1;
+        }
+      });
+      var onetime = document.getElementById("onetime");
+      function onetim() {
+        onetime.classList.add("disnone");
+      }
+    </script>
+  </body>
+</html>
