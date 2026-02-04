@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>非对称加密技术详解</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="./1.css" />
+  </head>
+  <body>
+    <header>
+      <h1><i class="fa fa-lock icon"></i>非对称加密技术详解</h1>
+      <p class="subtitle">公钥与私钥的数学奇迹：现代网络安全的核心基石</p>
+    </header>
+
+    <section class="content-section">
+      <h2>什么是非对称加密？</h2>
+      <p>
+        非对称加密，又称<b>公钥加密</b>，是一种使用一对密钥（公钥和私钥）进行加密和解密的密码学方法。与对称加密使用相同密钥不同，非对称加密的核心特性是：<span
+          class="highlight"
+          >用公钥加密的数据只能用对应的私钥解密，反之亦然</span
+        >。
+      </p>
+
+      <div class="analogy-box">
+        <h3><i class="fa fa-lightbulb icon"></i>生活化比喻：公开的投递信箱</h3>
+        <p>
+          想象一个所有人都可以投递信件的公开信箱（公钥），但只有信箱主人有唯一的钥匙（私钥）可以打开查看内容。任何人都可以向信箱投信，但只有主人能读取信件——这就是非对称加密的基本原理。
+        </p>
+      </div>
+
+      <p>
+        这种加密方式于1976年由Whitfield Diffie和Martin
+        Hellman首次提出，彻底改变了密码学领域，成为现代安全通信、数字签名、SSL/TLS协议等的技术基础。
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>非对称加密 vs 对称加密</h2>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>对比维度</th>
+            <th>非对称加密</th>
+            <th>对称加密</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>密钥数量</strong></td>
+            <td>一对密钥：公钥 + 私钥</td>
+            <td>单个共享密钥</td>
+          </tr>
+          <tr>
+            <td><strong>密钥分发</strong></td>
+            <td>公钥可公开分发，无需安全通道</td>
+            <td>需要安全通道分发密钥</td>
+          </tr>
+          <tr>
+            <td><strong>加密速度</strong></td>
+            <td>相对较慢（适合小数据）</td>
+            <td>非常快（适合大数据）</td>
+          </tr>
+          <tr>
+            <td><strong>主要用途</strong></td>
+            <td>密钥交换、数字签名、身份验证</td>
+            <td>数据加密、文件加密</td>
+          </tr>
+          <tr>
+            <td><strong>常见算法</strong></td>
+            <td>RSA、ECC、ElGamal</td>
+            <td>AES、DES、3DES</td>
+          </tr>
+          <tr>
+            <td><strong>安全性基础</strong></td>
+            <td>大数分解、离散对数难题</td>
+            <td>算法复杂性和密钥长度</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        在实际应用中，<span class="highlight">两种加密方式通常结合使用</span
+        >：非对称加密用于安全交换对称加密的密钥，然后使用对称加密进行大量数据的加密传输。
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>工作原理与流程</h2>
+
+      <div class="workflow-visual">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>密钥生成</h4>
+          <p>用户生成一对数学相关的密钥</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>公钥分发</h4>
+          <p>公钥公开分享，私钥严格保密</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>加密过程</h4>
+          <p>发送者使用接收者公钥加密信息</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h4>解密过程</h4>
+          <p>接收者使用自己的私钥解密信息</p>
+        </div>
+      </div>
+
+      <h3>通信场景示例</h3>
+      <p>假设Alice想安全地发送消息给Bob：</p>
+      <ol>
+        <li>Bob生成密钥对，将公钥发送给Alice（或Alice从公开目录获取）</li>
+        <li>Alice使用Bob的公钥加密她的消息</li>
+        <li>Alice将加密后的密文发送给Bob</li>
+        <li>Bob使用自己的私钥解密消息</li>
+        <li>即使第三方截获了密文和公钥，也无法解密消息（因为需要私钥）</li>
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h2>关键技术算法</h2>
+
+      <div class="tech-detail">
+        <div class="tech-card">
+          <h3><i class="fa fa-calculator icon"></i>RSA算法</h3>
+          <p><strong>安全性基础：</strong>大整数分解的数学难题</p>
+          <p><strong>密钥长度：</strong>通常2048位或4096位</p>
+          <p><strong>应用：</strong>SSL/TLS、数字签名、安全电子邮件</p>
+          <p><strong>特点：</strong>应用最广泛，计算量较大</p>
+        </div>
+
+        <div class="tech-card">
+          <h3><i class="fa fa-project-diagram icon"></i>ECC算法</h3>
+          <p><strong>安全性基础：</strong>椭圆曲线离散对数问题</p>
+          <p><strong>密钥长度：</strong>256位ECC ≈ 3072位RSA</p>
+          <p><strong>应用：</strong>移动设备、物联网、区块链</p>
+          <p><strong>特点：</strong>密钥短、计算快、功耗低</p>
+        </div>
+      </div>
+
+      <h3>数字签名：非对称加密的另一重要应用</h3>
+      <p>数字签名使用相反的过程：</p>
+      <ol>
+        <li>发送者使用自己的<b>私钥</b>对消息生成签名</li>
+        <li>接收者使用发送者的<b>公钥</b>验证签名</li>
+        <li>这确保了消息的完整性、身份验证和不可否认性</li>
+      </ol>
+    </section>
+
+    <section class="demo-area content-section">
+      <h2><i class="fa fa-code icon"></i>概念演示：非对称加密流程</h2>
+
+      <div class="demo-controls">
+        <input
+          type="text"
+          id="originalMessage"
+          placeholder="输入要加密的消息..."
+          value="非对称加密示例"
+        />
+        <button onclick="encryptMessage()">生成密钥并加密</button>
+        <button onclick="decryptMessage()">使用私钥解密</button>
+        <button onclick="resetDemo()">重置演示</button>
+      </div>
+
+      <div>
+        <h4>公钥（可公开）：</h4>
+        <textarea id="publicKeyDisplay" rows="2" readonly></textarea>
+
+        <h4>私钥（严格保密）：</h4>
+        <textarea id="privateKeyDisplay" rows="2" readonly></textarea>
+
+        <h4>加密后的消息：</h4>
+        <div class="message-display" id="encryptedMessage"></div>
+
+        <h4>解密后的消息：</h4>
+        <div class="message-display" id="decryptedMessage"></div>
+      </div>
+
+      <p
+        style="margin-top: var(--spacing-unit); font-size: 0.9rem; color: #666"
+      >
+        <i class="fa fa-info-circle icon"></i
+        >注意：此演示为概念模拟，使用简化的JavaScript加密方法。实际应用中需要真正的非对称加密库。
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>实际应用场景</h2>
+
+      <h3><i class="fa fa-globe icon"></i>1. HTTPS/SSL/TLS协议</h3>
+      <p>
+        网站安全连接的基础。浏览器使用网站的公钥加密会话密钥，建立安全通道。
+      </p>
+
+      <h3><i class="fa fa-envelope icon"></i>2. 安全电子邮件 (PGP/GPG)</h3>
+      <p>使用收件人公钥加密邮件内容，只有收件人私钥能解密。</p>
+
+      <h3><i class="fa fa-bitcoin icon"></i>3. 加密货币与区块链</h3>
+      <p>
+        区块链地址是公钥的哈希值，交易签名使用私钥，确保资产安全和身份验证。
+      </p>
+
+      <h3><i class="fa fa-id-card icon"></i>4. 数字证书与PKI</h3>
+      <p>证书颁发机构(CA)使用私钥对证书签名，用户使用CA公钥验证证书真实性。</p>
+
+      <h3><i class="fa fa-mobile-alt icon"></i>5. SSH远程登录</h3>
+      <p>使用密钥对进行无密码安全登录，比传统密码更安全。</p>
+    </section>
+
+    <section class="content-section">
+      <h2>安全性考虑与未来挑战</h2>
+
+      <h3><i class="fa fa-shield-alt icon"></i>当前安全状态</h3>
+      <p>
+        目前主流的RSA-2048和ECC-256算法在实际应用中仍被认为是安全的，但需要：
+      </p>
+      <ul>
+        <li>正确生成随机密钥</li>
+        <li>安全的私钥存储和管理</li>
+        <li>定期更新密钥和证书</li>
+        <li>使用经过验证的加密库实现</li>
+      </ul>
+
+      <h3><i class="fa fa-exclamation-triangle icon"></i>面临的挑战</h3>
+      <div class="analogy-box">
+        <h4>量子计算威胁</h4>
+        <p>
+          量子计算机的发展可能威胁当前非对称加密算法。Shor算法能在多项式时间内破解RSA和ECC，推动了对<b>后量子密码学</b>的研究。
+        </p>
+      </div>
+
+      <h3><i class="fa fa-rocket icon"></i>发展方向</h3>
+      <p>
+        1. <b>后量子密码算法</b>：NIST正在标准化抗量子攻击的新算法<br />
+        2. <b>同态加密</b>：允许在加密数据上直接计算<br />
+        3. <b>多方计算</b>：多个参与方协同计算而不泄露各自输入
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        © 2023 网络安全技术文档 | 本文档用于教育目的，实际部署请咨询安全专家
+      </p>
+      <p><i class="fa fa-lock icon"></i>保持好奇心，保持安全意识</p>
+    </footer>
+
+    <script>
+      // 模拟非对称加密的演示逻辑
+      let demoKeys = {
+        publicKey: null,
+        privateKey: null,
+        encryptedMessage: null,
+      };
+
+      function generateKeyPair() {
+        // 模拟生成密钥对
+        const timestamp = Date.now();
+        demoKeys.publicKey = `RSA-PUB-${timestamp.toString(16).toUpperCase()}-END`;
+        demoKeys.privateKey = `RSA-PRIV-${timestamp.toString(36).toUpperCase()}-SECURE`;
+
+        document.getElementById("publicKeyDisplay").value = demoKeys.publicKey;
+        document.getElementById("privateKeyDisplay").value =
+          demoKeys.privateKey;
+
+        return demoKeys;
+      }
+
+      function encryptMessage() {
+        const originalMessage =
+          document.getElementById("originalMessage").value;
+
+        if (!originalMessage.trim()) {
+          alert("请输入要加密的消息");
+          return;
+        }
+
+        // 生成密钥对
+        if (!demoKeys.publicKey) {
+          generateKeyPair();
+        }
+
+        // 模拟加密过程
+        const encoded = btoa(encodeURIComponent(originalMessage));
+        demoKeys.encryptedMessage = `ENC[${encoded}]`;
+
+        document.getElementById("encryptedMessage").innerHTML =
+          `<span style="color: var(--primary-color); font-family: monospace;">${demoKeys.encryptedMessage}</span>`;
+
+        document.getElementById("decryptedMessage").innerHTML =
+          '<span style="color: #999;">等待解密...</span>';
+
+        // 显示说明
+        document.getElementById("publicKeyDisplay").style.backgroundColor =
+          "#e8f5e9";
+        setTimeout(() => {
+          document.getElementById("publicKeyDisplay").style.backgroundColor =
+            "";
+        }, 1000);
+      }
+
+      function decryptMessage() {
+        if (!demoKeys.encryptedMessage) {
+          alert("请先生成密钥并加密消息");
+          return;
+        }
+
+        if (!demoKeys.privateKey) {
+          alert("私钥不可用");
+          return;
+        }
+
+        // 模拟解密过程
+        try {
+          const encryptedPart = demoKeys.encryptedMessage.substring(
+            4,
+            demoKeys.encryptedMessage.length - 1,
+          );
+          const decoded = decodeURIComponent(atob(encryptedPart));
+
+          document.getElementById("decryptedMessage").innerHTML =
+            `<span style="color: var(--secondary-color); font-weight: bold;">${decoded}</span>`;
+
+          // 高亮私钥显示区
+          document.getElementById("privateKeyDisplay").style.backgroundColor =
+            "#fff3cd";
+          setTimeout(() => {
+            document.getElementById("privateKeyDisplay").style.backgroundColor =
+              "";
+          }, 1000);
+
+          // 显示成功消息
+          const originalDisplay = document.getElementById("privateKeyDisplay");
+          const originalValue = originalDisplay.value;
+          originalDisplay.value = "✓ 解密成功！ " + originalValue;
+          setTimeout(() => {
+            originalDisplay.value = originalValue;
+          }, 2000);
+        } catch (e) {
+          document.getElementById("decryptedMessage").innerHTML =
+            `<span style="color: red;">解密失败: ${e.message}</span>`;
+        }
+      }
+
+      function resetDemo() {
+        demoKeys = {
+          publicKey: null,
+          privateKey: null,
+          encryptedMessage: null,
+        };
+        document.getElementById("publicKeyDisplay").value = "";
+        document.getElementById("privateKeyDisplay").value = "";
+        document.getElementById("encryptedMessage").innerHTML = "";
+        document.getElementById("decryptedMessage").innerHTML = "";
+        document.getElementById("originalMessage").value = "非对称加密示例";
+      }
+
+      // 页面加载时初始化
+      document.addEventListener("DOMContentLoaded", function () {
+        // 可以添加一些初始动画或效果
+        const title = document.querySelector("h1");
+        title.style.opacity = "0";
+        title.style.transform = "translateY(-20px)";
+
+        setTimeout(() => {
+          title.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+          title.style.opacity = "1";
+          title.style.transform = "translateY(0)";
+        }, 300);
+      });
+    </script>
+  </body>
+</html>
